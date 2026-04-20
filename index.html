@@ -3,85 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chuyển Đổi Số Trong Giáo Dục</title>
+    <title>Hệ thống Văn bản Trường THPT Lê Duẩn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f1f5f9;
+            --text: #0f172a;
+            --text-light: #64748b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to right, #e0f7fa, #e0f2f1);
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #00796b;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .container {
-            padding: 40px;
-            max-width: 900px;
-            margin: auto;
-        }
-        h1, h2 {
-            color: #004d40;
-        }
-        p {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
-            font-size: 18px;
         }
+
+        /* --- HEADER --- */
+        header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        header h1 { font-size: 2rem; margin-bottom: 10px; letter-spacing: -0.5px; }
+        header p { opacity: 0.9; font-weight: 300; }
+
+        /* --- SEARCH BOX --- */
+        .search-area {
+            max-width: 700px;
+            margin: -30px auto 30px;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 5px 15px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .search-box i { color: var(--text-light); font-size: 1.2rem; }
+        .search-box input {
+            border: none;
+            width: 100%;
+            padding: 15px;
+            outline: none;
+            font-size: 1rem;
+            border-radius: 50px;
+        }
+
+        /* --- MAIN CONTAINER --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+        }
+
+        /* --- FILTER TABS --- */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            padding: 10px 22px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+        }
+
+        /* --- TABLE STYLE --- */
         .card {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
-        footer {
-            background-color: #004d40;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            position: relative;
-            bottom: 0;
+
+        table {
             width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: #f8fafc;
+            padding: 18px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #fcfdfe; }
+
+        /* --- BADGES --- */
+        .badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .bg-qd { background: #dbeafe; color: #1e40af; } /* Quyết định */
+        .bg-hd { background: #dcfce7; color: #15803d; } /* Hướng dẫn */
+        .bg-qc { background: #fef3c7; color: #92400e; } /* Quy chế */
+        .bg-vb { background: #f1f5f9; color: #475569; } /* Văn bản */
+
+        /* --- BUTTON VIEW --- */
+        .btn-view {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn-view:hover { background: var(--primary-dark); }
+
+        /* --- LOADING STATE --- */
+        .loading { padding: 40px; text-align: center; color: var(--text-light); }
+        .spinner {
+            width: 30px; height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.5rem; }
+            th:nth-child(3), td:nth-child(3) { display: none; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Chuyển Đổi Số Trong Giáo Dục</h1>
-        <p>Đổi mới để phát triển bền vững nền giáo dục Việt Nam</p>
-    </header>
 
-    <div class="container">
-        <div class="card">
-            <h2>Khái Niệm</h2>
-            <p>Chuyển đổi số trong giáo dục là quá trình ứng dụng công nghệ số vào các hoạt động dạy và học, quản lý giáo dục nhằm nâng cao chất lượng và hiệu quả giáo dục.</p>
-        </div>
+<header>
+    <h1>CỔNG TRA CỨU VĂN BẢN</h1>
+    <p>Hệ thống lưu trữ và khai thác tài liệu trực tuyến Trường THPT Lê Duẩn - Tây Ninh</p>
+</header>
 
-        <div class="card">
-            <h2>Lợi Ích</h2>
-            <ul>
-                <li>Tăng khả năng tiếp cận kiến thức cho học sinh ở mọi nơi.</li>
-                <li>Cá nhân hóa quá trình học tập.</li>
-                <li>Giảm thiểu chi phí và tăng hiệu quả quản lý.</li>
-                <li>Hỗ trợ giáo viên đổi mới phương pháp giảng dạy.</li>
-            </ul>
-        </div>
+<div class="search-area">
+    <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Tìm theo tên văn bản, số hiệu..." onkeyup="filterData()">
+    </div>
+</div>
 
-        <div class="card">
-            <h2>Thách Thức</h2>
-            <ul>
-                <li>Cơ sở hạ tầng công nghệ chưa đồng bộ.</li>
-                <li>Thiếu kỹ năng số của giáo viên và học sinh.</li>
-                <li>Chênh lệch vùng miền trong tiếp cận công nghệ.</li>
-            </ul>
-        </div>
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="filterCategory('Tất cả', this)">Tất cả</button>
+        <button class="tab-btn" onclick="filterCategory('Quyết định', this)">Quyết định</button>
+        <button class="tab-btn" onclick="filterCategory('Hướng dẫn', this)">Hướng dẫn</button>
+        <button class="tab-btn" onclick="filterCategory('Quy chế', this)">Quy chế</button>
+        <button class="tab-btn" onclick="filterCategory('Văn bản', this)">Văn bản khác</button>
     </div>
 
-    <footer>
-        &copy; 2025 Chuyển Đổi Số Giáo Dục - Mọi quyền được bảo lưu.
-    </footer>
+    <div class="card">
+        <table id="docTable">
+            <thead>
+                <tr>
+                    <th style="width: 45%;">Tên tài liệu</th>
+                    <th style="width: 20%;">Danh mục</th>
+                    <th style="width: 15%;">Ngày ban hành</th>
+                    <th style="width: 20%;">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                </tbody>
+        </table>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Đang đồng bộ dữ liệu từ hệ thống...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    /** * HƯỚNG DẪN: 
+     * 1. Thay link Web App bên dưới bằng link bạn nhận được từ Google Apps Script
+     * 2. Đảm bảo file Google Sheets có các cột: A(Tên), B(Danh mục), C(Ngày), D(Link Drive)
+     */
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJLxsr3i3nGCBHQtzRlQBd-7rIy8fnzpWUV6E_niQ0UrDLGCeMgIcHAcuuRd9HSWYq/exec";
+    
+    let allData = []; // Biến lưu trữ toàn bộ dữ liệu gốc
+
+    // Hàm lấy dữ liệu từ Google Sheets
+    async function fetchData() {
+        try {
+            const response = await fetch(SCRIPT_URL);
+            allData = await response.json();
+            renderTable(allData);
+            document.getElementById('loading').style.display = 'none';
+        } catch (error) {
+            console.error("Lỗi:", error);
+            document.getElementById('loading').innerHTML = "❌ Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại cấu hình Web App.";
+        }
+    }
+
+    // Hàm hiển thị dữ liệu ra bảng
+    function renderTable(data) {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = '';
+
+        if(data.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 30px;">Không tìm thấy tài liệu nào</td></tr>';
+            return;
+        }
+
+        data.forEach(item => {
+            let badgeClass = 'bg-vb';
+            if(item.danhmuc.includes('Quyết định')) badgeClass = 'bg-qd';
+            else if(item.danhmuc.includes('Hướng dẫn')) badgeClass = 'bg-hd';
+            else if(item.danhmuc.includes('Quy chế')) badgeClass = 'bg-qc';
+
+            tableBody.innerHTML += `
+                <tr>
+                    <td><strong>${item.ten}</strong></td>
+                    <td><span class="badge ${badgeClass}">${item.danhmuc}</span></td>
+                    <td>${item.ngay}</td>
+                    <td>
+                        <a href="${item.link}" target="_blank" class="btn-view">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Online
+                        </a>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    // Hàm lọc dữ liệu theo thanh tìm kiếm
+    function filterData() {
+        const keyword = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allData.filter(item => 
+            item.ten.toLowerCase().includes(keyword) || 
+            item.danhmuc.toLowerCase().includes(keyword)
+        );
+        renderTable(filtered);
+    }
+
+    // Hàm lọc dữ liệu theo Danh mục (Tabs)
+    function filterCategory(cat, btn) {
+        // Cập nhật trạng thái Active cho nút
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Lọc dữ liệu
+        if(cat === 'Tất cả') {
+            renderTable(allData);
+        } else {
+            const filtered = allData.filter(item => item.danhmuc === cat);
+            renderTable(filtered);
+        }
+    }
+
+    // Khởi chạy khi trang web tải xong
+    window.onload = fetchData;
+</script>
+
 </body>
 </html>
