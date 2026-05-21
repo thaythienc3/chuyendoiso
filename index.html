@@ -1,312 +1,506 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Văn bản Trường THPT Lê Duẩn</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Nộp Giáo Án & Tài Liệu Trực Tuyến</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #3a86ff;
+      --primary-light: #eef4ff;
+      --bg-gradient-start: #e0f2fe;
+      --bg-gradient-end: #bae6fd;
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --success-color: #06b6d4;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      margin: 0;
+      padding: 30px 15px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Các icon trang trí giáo dục lơ lửng ở background tạo chiều sâu */
+    .bg-deco-icon {
+      position: absolute;
+      color: rgba(58, 134, 255, 0.12);
+      pointer-events: none;
+      z-index: 0;
+      animation: floatAnimation 6s ease-in-out infinite;
+    }
+    @keyframes floatAnimation {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(10deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* Bố cục chính chia 2 cột linh hoạt */
+    .main-wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1150px;
+    }
     
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f1f5f9;
-            --text: #0f172a;
-            --text-light: #64748b;
-        }
+    .grid-layout {
+      display: flex;
+      gap: 30px;
+      width: 100%;
+    }
+    
+    .grid-col {
+      flex: 1;
+      min-width: 0; /* Tránh tràn layout */
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 35px;
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.06);
+      border: 3px solid #ffffff;
+      transition: transform 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
+    /* Tiêu đề ứng dụng */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-        /* --- HEADER --- */
-        header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-            color: white;
-            padding: 50px 20px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    .avatar-owl {
+      width: 90px;
+      height: 90px;
+      background: var(--primary-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px auto;
+      box-shadow: 0 8px 20px rgba(58, 134, 255, 0.15);
+    }
 
-        header h1 { font-size: 2rem; margin-bottom: 10px; letter-spacing: -0.5px; }
-        header p { opacity: 0.9; font-weight: 300; }
+    .avatar-owl i {
+      font-size: 2.8rem;
+      color: var(--primary-color);
+    }
 
-        /* --- SEARCH BOX --- */
-        .search-area {
-            max-width: 700px;
-            margin: -30px auto 30px;
-            padding: 0 20px;
-        }
+    .brand-header h2 {
+      margin: 5px 0;
+      font-size: 1.65rem;
+      color: #0f172a;
+      font-weight: 700;
+    }
 
-        .search-box {
-            background: white;
-            display: flex;
-            align-items: center;
-            padding: 5px 15px;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
+    .brand-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
 
-        .search-box i { color: var(--text-light); font-size: 1.2rem; }
-        .search-box input {
-            border: none;
-            width: 100%;
-            padding: 15px;
-            outline: none;
-            font-size: 1rem;
-            border-radius: 50px;
-        }
+    /* Form inputs */
+    .form-group {
+      margin-bottom: 22px;
+    }
 
-        /* --- MAIN CONTAINER --- */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto 50px;
-            padding: 0 20px;
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.95rem;
+    }
 
-        /* --- FILTER TABS --- */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            scrollbar-width: none;
-        }
-        .tabs::-webkit-scrollbar { display: none; }
+    label i {
+      color: var(--primary-color);
+      margin-right: 6px;
+      font-size: 1.1rem;
+    }
 
-        .tab-btn {
-            padding: 10px 22px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 30px;
-            cursor: pointer;
-            white-space: nowrap;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            color: var(--text-light);
-        }
+    .input-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2.5px solid #e2e8f0;
+      border-radius: 14px;
+      box-sizing: border-box;
+      font-size: 1rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      color: var(--text-main);
+      background-color: #f8fafc;
+      transition: all 0.25s ease;
+    }
 
-        .tab-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
-        }
+    .input-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(58, 134, 255, 0.15);
+    }
 
-        /* --- TABLE STYLE --- */
-        .card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-        }
+    /* Vùng thả file thiết kế ngộ nghĩnh */
+    .file-upload-zone {
+      border: 3px dashed #cbd5e1;
+      padding: 30px 20px;
+      text-align: center;
+      border-radius: 16px;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95rem;
-        }
+    .file-upload-zone:hover {
+      border-color: var(--primary-color);
+      background: var(--primary-light);
+    }
 
-        th {
-            background: #f8fafc;
-            padding: 18px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--text-light);
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-        }
+    .edu-icons-group {
+      margin-bottom: 12px;
+      display: block;
+    }
 
-        td {
-            padding: 18px;
-            border-bottom: 1px solid #f1f5f9;
-        }
+    .edu-icons-group i {
+      font-size: 1.6rem;
+      margin: 0 8px;
+      color: #94a3b8;
+      transition: all 0.3s ease;
+    }
 
-        tr:last-child td { border-bottom: none; }
-        tr:hover { background-color: #fcfdfe; }
+    .file-upload-zone:hover .edu-icons-group i {
+      color: var(--primary-color);
+      transform: scale(1.15);
+    }
 
-        /* --- BADGES --- */
-        .badge {
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .bg-qd { background: #dbeafe; color: #1e40af; } /* Quyết định */
-        .bg-hd { background: #dcfce7; color: #15803d; } /* Hướng dẫn */
-        .bg-qc { background: #fef3c7; color: #92400e; } /* Quy chế */
-        .bg-vb { background: #f1f5f9; color: #475569; } /* Văn bản */
+    #fileInput { display: none; }
 
-        /* --- BUTTON VIEW --- */
-        .btn-view {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
+    /* Nút nộp bài đổ bóng */
+    .btn-submit-cute {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%);
+      color: white;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Quicksand', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(58, 134, 255, 0.25);
+      transition: all 0.25s ease;
+    }
 
-        .btn-view:hover { background: var(--primary-dark); }
+    .btn-submit-cute:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(58, 134, 255, 0.35);
+    }
 
-        /* --- LOADING STATE --- */
-        .loading { padding: 40px; text-align: center; color: var(--text-light); }
-        .spinner {
-            width: 30px; height: 30px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .btn-submit-cute:disabled {
+      background: #cbd5e1;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
 
-        @media (max-width: 768px) {
-            header h1 { font-size: 1.5rem; }
-            th:nth-child(3), td:nth-child(3) { display: none; }
-        }
-    </style>
+    .loading-container {
+      display: none;
+      text-align: center;
+      margin: 15px 0;
+      color: var(--primary-color);
+      font-weight: 700;
+    }
+
+    /* Bảng danh sách nộp bên phải */
+    .list-header {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #0f172a;
+    }
+    
+    .list-header i {
+      background: #cffafe;
+      color: var(--success-color);
+      padding: 10px;
+      border-radius: 12px;
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 2px solid #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #ffffff;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--primary-light);
+      color: #1e3a8a;
+      font-weight: 700;
+      border-bottom: 2px solid #dbeafe;
+    }
+
+    td {
+      border-bottom: 1px solid #f1f5f9;
+      font-weight: 600;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .badge-dept {
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: inline-block;
+      font-weight: 700;
+    }
+    
+    /* Tự động định dạng màu sắc rực rỡ ngộ nghĩnh cho từng dòng bộ môn */
+    tr:nth-child(4n+1) .badge-dept { background: #fee2e2; color: #991b1b; }
+    tr:nth-child(4n+2) .badge-dept { background: #e0f2fe; color: #0369a1; }
+    tr:nth-child(4n+3) .badge-dept { background: #fef9c3; color: #854d0e; }
+    tr:nth-child(4n+4) .badge-dept { background: #dcfce7; color: #166534; }
+
+    .stt-circle {
+      width: 28px;
+      height: 28px;
+      background: #f1f5f9;
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      line-height: 28px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+    }
+
+    /* Responsive cho Điện thoại di động */
+    @media screen and (max-width: 850px) {
+      .grid-layout {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>CỔNG TRA CỨU VĂN BẢN TRƯỜNG THPT LÊ DUẨN - TÂY NINH</h1>
-    <p>Hệ thống lưu trữ và khai thác tài liệu trực tuyến Trường THPT Lê Duẩn - Tây Ninh</p>
-</header>
+  <i class="fa-solid fa-graduation-cap bg-deco-icon" style="top: 8%; left: 4%; font-size: 3rem; animation-delay: 0s;"></i>
+  <i class="fa-solid fa-book bg-deco-icon" style="top: 25%; right: 5%; font-size: 2.5rem; animation-delay: 1s;"></i>
+  <i class="fa-solid fa-pencil bg-deco-icon" style="bottom: 12%; left: 3%; font-size: 2.2rem; animation-delay: 2s;"></i>
+  <i class="fa-solid fa-apple-whole bg-deco-icon" style="bottom: 25%; right: 4%; font-size: 2.8rem; animation-delay: 3s;"></i>
+  <i class="fa-solid fa-palette bg-deco-icon" style="top: 48%; left: 6%; font-size: 2rem; animation-delay: 1.5s;"></i>
 
-<div class="search-area">
-    <div class="search-box">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Tìm theo tên văn bản, số hiệu..." onkeyup="filterData()">
-    </div>
-</div>
+  <div class="main-wrapper">
+    <div class="grid-layout">
+      
+      <div class="grid-col animate__animated animate__fadeInLeft">
+        <div class="card">
+          <div class="brand-header">
+            <div class="avatar-owl">
+              <i class="fa-solid fa-owl"></i> </div>
+            <h2>Nộp Giáo Án Điện Tử</h2>
+            <p>Hệ thống tự động đồng bộ dữ liệu nhà trường</p>
+          </div>
 
-<div class="container">
-    <div class="tabs">
-        <button class="tab-btn active" onclick="filterCategory('Tất cả', this)">Tất cả</button>
-        <button class="tab-btn" onclick="filterCategory('Quyết định', this)">Quyết định</button>
-        <button class="tab-btn" onclick="filterCategory('Hướng dẫn', this)">Hướng dẫn</button>
-        <button class="tab-btn" onclick="filterCategory('Quy chế', this)">Quy chế</button>
-        <button class="tab-btn" onclick="filterCategory('Văn bản', this)">Văn bản khác</button>
-    </div>
+          <form id="submissionForm">
+            <div class="form-group">
+              <label><i class="fa-solid fa-signature"></i> Họ và tên giáo viên</label>
+              <input type="text" id="teacherName" class="input-control" placeholder="Nhập họ tên đầy đủ..." required>
+            </div>
 
-    <div class="card">
-        <table id="docTable">
-            <thead>
-                <tr>
-                    <th style="width: 45%;">Tên tài liệu</th>
-                    <th style="width: 20%;">Danh mục</th>
-                    <th style="width: 15%;">Ngày ban hành</th>
-                    <th style="width: 20%;">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                </tbody>
-        </table>
-        <div id="loading" class="loading">
-            <div class="spinner"></div>
-            <p>Đang đồng bộ dữ liệu từ hệ thống...</p>
+            <div class="form-group">
+              <label><i class="fa-solid fa-school"></i> Tổ bộ môn</label>
+              <select id="department" class="input-control" required>
+                <option value="" disabled selected>-- Chọn tổ bộ môn của thầy/cô --</option>
+                <option value="Vavan sử địa sinh">Văn sử địa sinh</option>
+                <option value="Anh ktpl">Anh ktpl</option>
+                <option value="Lí hóa td">Lí hóa td</option>
+                <option value="Toán tin">Toán tin</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fa-solid fa-file-shield"></i> Tệp đính kèm (Giáo án)</label>
+              <div class="file-upload-zone" onclick="document.getElementById('fileInput').click()">
+                <span class="edu-icons-group">
+                  <i class="fa-solid fa-file-word"></i>
+                  <i class="fa-solid fa-file-pdf"></i>
+                  <i class="fa-solid fa-file-excel"></i>
+                </span>
+                <p id="fileLabel" style="margin: 5px 0 0 0; color: #475569; font-weight: 600; font-size: 0.95rem;">
+                  Kéo thả file vào đây hoặc nhấp để chọn
+                </p>
+                <input type="file" id="fileInput" required onchange="onFileSelected()">
+              </div>
+            </div>
+
+            <button type="button" id="submitBtn" class="btn-submit-cute" onclick="handleFormSubmit()">
+              <i class="fa-solid fa-paper-plane"></i> GỬI NỘP GIÁO ÁN
+            </button>
+            
+            <div id="loadingStatus" class="loading-container">
+              <i class="fa-solid fa-spinner fa-spin"></i> Hệ thống đang đưa tài liệu lên Drive, thầy/cô đợi xíu nhé...
+            </div>
+          </form>
         </div>
+      </div>
+
+      <div class="grid-col animate__animated animate__fadeInRight">
+        <div class="card">
+          <div class="list-header">
+            <i class="fa-solid fa-clipboard-list"></i>
+            <span>Giáo Viên Đã Nộp Bài</span>
+          </div>
+          
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 15%; text-align: center;">STT</th>
+                  <th style="width: 50%;">Họ và Tên</th>
+                  <th style="width: 35%;">Tổ Bộ Môn</th>
+                </tr>
+              </thead>
+              <tbody id="dataTableBody">
+                <tr>
+                  <td colspan="3" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i> Đang tải dữ liệu từ lớp học...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
-</div>
+  </div>
 
-<script>
-    /** * HƯỚNG DẪN: 
-     * 1. Thay link Web App bên dưới bằng link bạn nhận được từ Google Apps Script
-     * 2. Đảm bảo file Google Sheets có các cột: A(Tên), B(Danh mục), C(Ngày), D(Link Drive)
-     */
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxJLxsr3i3nGCBHQtzRlQBd-7rIy8fnzpWUV6E_niQ0UrDLGCeMgIcHAcuuRd9HSWYq/exec";
-    
-    let allData = []; // Biến lưu trữ toàn bộ dữ liệu gốc
+  <script>
+    // ĐƯỜNG DẪN WEB APP GOOGLE APPS SCRIPT CỦA BẠN (Tạo ở câu trả lời trước)
+    const GOOGLE_SCRIPT_API = "ĐIỀN_ĐƯỜNG_DẪN_WEB_APP_CỦA_BẠN_VÀO_ĐÂY";
 
-    // Hàm lấy dữ liệu từ Google Sheets
-    async function fetchData() {
-        try {
-            const response = await fetch(SCRIPT_URL);
-            allData = await response.json();
-            renderTable(allData);
-            document.getElementById('loading').style.display = 'none';
-        } catch (error) {
-            console.error("Lỗi:", error);
-            document.getElementById('loading').innerHTML = "❌ Lỗi kết nối dữ liệu. Vui lòng kiểm tra lại cấu hình Web App.";
-        }
+    window.onload = function() {
+      loadTeacherList();
+    };
+
+    function onFileSelected() {
+      const input = document.getElementById('fileInput');
+      const label = document.getElementById('fileLabel');
+      if (input.files.length > 0) {
+        label.innerHTML = `<b style="color: var(--primary-color)"><i class="fa-solid fa-circle-check"></i> Đã đính kèm:</b> ${input.files[0].name}`;
+      }
     }
 
-    // Hàm hiển thị dữ liệu ra bảng
-    function renderTable(data) {
-        const tableBody = document.getElementById('tableBody');
-        tableBody.innerHTML = '';
-
-        if(data.length === 0) {
-            tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding: 30px;">Không tìm thấy tài liệu nào</td></tr>';
+    // Tải danh sách thời gian thực từ Google Sheet
+    function loadTeacherList() {
+      fetch(GOOGLE_SCRIPT_API)
+        .then(response => response.json())
+        .then(data => {
+          const tbody = document.getElementById('dataTableBody');
+          if (!data || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 25px;">Chưa có giáo viên nào nộp giáo án.</td></tr>`;
             return;
-        }
-
-        data.forEach(item => {
-            let badgeClass = 'bg-vb';
-            if(item.danhmuc.includes('Quyết định')) badgeClass = 'bg-qd';
-            else if(item.danhmuc.includes('Hướng dẫn')) badgeClass = 'bg-hd';
-            else if(item.danhmuc.includes('Quy chế')) badgeClass = 'bg-qc';
-
-            tableBody.innerHTML += `
-                <tr>
-                    <td><strong>${item.ten}</strong></td>
-                    <td><span class="badge ${badgeClass}">${item.danhmuc}</span></td>
-                    <td>${item.ngay}</td>
-                    <td>
-                        <a href="${item.link}" target="_blank" class="btn-view">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem Online
-                        </a>
-                    </td>
-                </tr>
-            `;
+          }
+          
+          tbody.innerHTML = data.map(item => `
+            <tr class="animate__animated animate__fadeIn">
+              <td style="text-align: center;"><span class="stt-circle">${item.stt}</span></td>
+              <td><strong style="color: #0f172a;">${item.name}</strong></td>
+              <td><span class="badge-dept">${item.dept}</span></td>
+            </tr>
+          `).join('');
+        })
+        .catch(error => {
+          document.getElementById('dataTableBody').innerHTML = `<tr><td colspan="3" style="text-align: center; color: #ef4444; padding: 25px;">Lỗi kết nối. Hãy đảm bảo bạn đã điền đúng link Apps Script!</td></tr>`;
         });
     }
 
-    // Hàm lọc dữ liệu theo thanh tìm kiếm
-    function filterData() {
-        const keyword = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allData.filter(item => 
-            item.ten.toLowerCase().includes(keyword) || 
-            item.danhmuc.toLowerCase().includes(keyword)
-        );
-        renderTable(filtered);
+    // Gửi tệp lên hệ thống API
+    function handleFormSubmit() {
+      const name = document.getElementById('teacherName').value.trim();
+      const dept = document.getElementById('department').value;
+      const fileInput = document.getElementById('fileInput');
+
+      if (!name || !dept || fileInput.files.length === 0) {
+        alert('Thầy/Cô vui lòng điền đủ thông tin và chọn file giáo án nhé!');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      
+      document.getElementById('loadingStatus').style.display = 'block';
+      document.getElementById('submitBtn').disabled = true;
+
+      reader.onload = function(e) {
+        const payload = {
+          teacherName: name,
+          department: dept,
+          fileName: file.name,
+          fileData: e.target.result
+        };
+
+        fetch(GOOGLE_SCRIPT_API, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(resData => {
+          document.getElementById('loadingStatus').style.display = 'none';
+          document.getElementById('submitBtn').disabled = false;
+          
+          if (resData.success) {
+            alert('Nộp giáo án thành công tốt đẹp! 🎉');
+            document.getElementById('submissionForm').reset();
+            document.getElementById('fileLabel').innerText = 'Kéo thả file vào đây hoặc nhấp để chọn';
+            loadTeacherList(); // Tự động cập nhật danh sách ngay lập tức không cần F5
+          } else {
+            alert('Lỗi máy chủ Google: ' + resData.message);
+          }
+        })
+        .catch(err => {
+          document.getElementById('loadingStatus').style.display = 'none';
+          document.getElementById('submitBtn').disabled = false;
+          alert('Lỗi đường truyền hoặc cấu hình CORS của Google Apps Script!');
+        });
+      };
+      
+      reader.readAsDataURL(file);
     }
-
-    // Hàm lọc dữ liệu theo Danh mục (Tabs)
-    function filterCategory(cat, btn) {
-        // Cập nhật trạng thái Active cho nút
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // Lọc dữ liệu
-        if(cat === 'Tất cả') {
-            renderTable(allData);
-        } else {
-            const filtered = allData.filter(item => item.danhmuc === cat);
-            renderTable(filtered);
-        }
-    }
-
-    // Khởi chạy khi trang web tải xong
-    window.onload = fetchData;
-</script>
-
+  </script>
 </body>
 </html>
